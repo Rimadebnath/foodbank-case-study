@@ -5,3 +5,4 @@ End-to-end product & UX design case study for Foodbank, a mobile donation app th
 - **Author**: Rima Debnath
 - **Role**: Product Designer & Developer
 - **Features**: Interactive mobile prototype, before/after wireframe-to-hifi slider, user flows, design system foundations.
+- **Link**: https://foodbank-case-study.vercel.app/
