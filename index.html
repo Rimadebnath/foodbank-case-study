@@ -1,0 +1,864 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Foodbank Case Study</title>
+<meta name="description" content="Foodbank: a donation app designed and owned end to end by Rima Debnath. Product design case study.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ramaraja&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Roboto:wght@400;500;700&display=swap">
+<style>
+/* Layout: white page, generous gutters, wide 1200px canvas; visuals get 7 of 12 columns, text 5; prototype directly under the hero */
+:root{
+  --bg:#FFFFFF; --soft:#F5F6F5; --ink:#0B0B0B; --muted:#5F6563; --line:#E7E9E8;
+  --accent:#00966A; --accent-ink:#007A56; --accent-soft:#EAF6F1; --warm:#F6A32D; --warm-ink:#9A5B00; --warm-soft:#FFF4E2; --error:#D9452F;
+  --display:"Ramaraja", Georgia, "Times New Roman", serif;
+  --body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --app:"Roboto", system-ui, -apple-system, Arial, sans-serif;
+  --gutter:clamp(20px,5vw,72px);
+  --section:clamp(80px,11vw,140px);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.65;padding-inline:var(--gutter);padding-block:0}
+img{max-width:100%}
+a{color:var(--accent-ink);text-underline-offset:3px}
+a:focus-visible,button:focus-visible,input:focus-visible,label:focus-within{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+h1,h2,h3,h4{text-wrap:balance;margin:0}
+p{margin:0}
+.wrap{max-width:1200px;margin-inline:auto}
+.eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);margin-inline:calc(var(--gutter) * -1);padding:16px var(--gutter);border-bottom:1px solid transparent}
+.nav.scrolled{border-bottom-color:var(--line)}
+.nav .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-family:var(--mono);font-size:14px;color:var(--ink);text-decoration:none}
+.nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.nav ul a{font-family:var(--mono);font-size:13px;color:var(--muted);text-decoration:none}
+.nav ul a:hover{color:var(--ink)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(40px,6vw,96px);align-items:center;padding-block:clamp(48px,7vw,96px) var(--section)}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(64px,10vw,124px);line-height:.92;letter-spacing:-.01em;margin-top:18px}
+.hero h1 span{color:var(--accent)}
+.lede{font-size:clamp(19px,1.6vw,22px);line-height:1.5;margin-top:24px;max-width:30ch}
+.meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 32px;margin:40px 0 0;padding-top:28px;border-top:1px solid var(--line);max-width:440px}
+.meta dt{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.meta dd{margin:4px 0 0;font-weight:500}
+.ba-wrap{display:flex;flex-direction:column;align-items:center;gap:18px;padding:clamp(28px,4vw,48px);background:var(--soft);border-radius:28px}
+.tabs{display:flex;gap:4px;padding:4px;background:#fff;border:1px solid var(--line);border-radius:999px}
+.tabs button{font-family:var(--mono);font-size:13px;border:0;background:transparent;color:var(--muted);padding:8px 16px;border-radius:999px;cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--ink);color:#fff}
+.phone{width:min(330px,100%);aspect-ratio:750/1627;border-radius:42px;padding:10px;background:#111;box-shadow:0 40px 80px -40px rgba(0,40,25,.45)}
+.ba{position:relative;width:100%;height:100%;border-radius:32px;overflow:hidden;background:#fff;--pos:50%;touch-action:pan-y}
+.ba img{position:absolute;top:2.2%;left:3.4%;width:93.2%;height:95.6%;object-fit:contain;user-select:none;-webkit-user-drag:none;background:#fff}
+.ba .after{clip-path:inset(0 0 0 var(--pos))}
+.ba .bar{position:absolute;top:0;bottom:0;left:var(--pos);width:2px;margin-left:-1px;background:var(--accent);pointer-events:none}
+.ba .knob{position:absolute;top:50%;left:var(--pos);transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;box-shadow:0 4px 14px rgba(0,0,0,.25);pointer-events:none;font-size:16px}
+.ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.ba .tag{position:absolute;bottom:16px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:6px;pointer-events:none}
+.ba .tag.l{left:14px;background:#4A4A4A;color:#fff}
+.ba .tag.r{right:14px;background:var(--accent);color:#fff}
+.hint{font-family:var(--mono);font-size:12px;color:var(--muted)}
+
+/* sections */
+section.block{padding-block:var(--section) 0}
+.sec-head{display:grid;gap:14px;margin-bottom:clamp(36px,5vw,56px);max-width:720px}
+.sec-head h2{font-family:var(--display);font-weight:400;font-size:clamp(40px,5vw,60px);line-height:1.02}
+.sec-head p{color:var(--muted);font-size:18px;max-width:60ch}
+.split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px)}
+.prose{display:grid;gap:18px;max-width:62ch}
+.prose b{font-weight:600}
+
+/* overview facts */
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;align-self:start}
+.facts div{background:#fff;padding:22px;display:grid;gap:6px;align-content:start}
+.facts b{font-family:var(--display);font-weight:400;font-size:40px;line-height:1;color:var(--accent)}
+.facts span{font-size:14.5px;color:var(--muted)}
+
+.pairs{display:grid;border-top:1px solid var(--ink)}
+.pair{display:grid;grid-template-columns:40px minmax(0,1fr) minmax(0,1fr);gap:24px;padding:22px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.pair .n{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.pair .k{display:block;font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.pair .k.p{color:var(--error)} .pair .k.s{color:var(--accent-ink)}
+
+.apps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.app{background:var(--soft);border-radius:18px;padding:28px;display:grid;gap:16px;align-content:start}
+.app h3{font-size:20px;font-weight:600}
+.app .sub{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:2px}
+.app .k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px}
+.app .good .k{color:var(--accent-ink)} .app .gap .k{color:var(--warm-ink)}
+.app p{font-size:15.5px}
+.note{margin-top:24px;font-size:14.5px;color:var(--muted);max-width:80ch}
+
+/* ownership */
+.own{display:grid;gap:clamp(48px,6vw,80px)}
+.own>div{min-width:0}
+.own h3{font-size:22px;font-weight:600;margin-bottom:6px}
+.own .sub{color:var(--muted);margin-bottom:22px;max-width:62ch}
+.board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.lane{background:var(--soft);border-radius:16px;padding:18px;display:grid;gap:10px;align-content:start}
+.lane h4{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;display:flex;justify-content:space-between}
+.item{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:6px}
+.item b{font-weight:500;font-size:15px;line-height:1.4}
+.item small{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.pill{display:inline-block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:5px;margin-right:6px}
+.pill.m{background:var(--accent-soft);color:var(--accent-ink)}
+.pill.s{background:var(--warm-soft);color:var(--warm-ink)}
+.pill.c{background:#EEF0EF;color:var(--muted)}
+.stories{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.story{border:1px solid var(--line);border-radius:16px;padding:22px;display:grid;gap:12px;align-content:start}
+.story .id{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--accent-ink)}
+.story .as{font-size:15.5px;font-weight:500}
+.ac{display:grid;gap:8px;margin:0;padding:0;list-style:none;counter-reset:ac;font-size:14.5px;color:var(--muted)}
+.ac li{counter-increment:ac;display:grid;grid-template-columns:22px minmax(0,1fr);gap:6px;padding-top:8px;border-top:1px dashed var(--line)}
+.ac li::before{content:counter(ac) ".";font-family:var(--mono);font-size:12px;color:var(--ink);padding-top:2px}
+.epic{background:var(--accent-soft);border-radius:14px;padding:16px 20px;margin-bottom:16px;font-size:16px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:baseline}
+.epic span{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-ink)}
+.scope{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;margin-top:16px}
+.scope div{background:var(--soft);border-radius:14px;padding:18px 20px}
+.scope h4{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:8px}
+.scope ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:15px}
+.om{background:var(--soft);border-radius:18px;padding:clamp(16px,3vw,32px);overflow-x:auto}
+.om svg{display:block;width:100%;min-width:720px;height:auto}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.metric{border-top:2px solid var(--ink);padding-top:16px;display:grid;gap:6px;align-content:start}
+.metric b{font-family:var(--display);font-weight:400;font-size:36px;line-height:1}
+.metric span{font-size:15px}
+.metric small{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.ai{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.ai div{border-radius:16px;padding:22px;display:grid;gap:8px;align-content:start}
+.ai div:first-child{background:var(--accent-soft)} .ai div:last-child{background:var(--warm-soft)}
+.ai h4{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:500}
+.ai ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:15.5px}
+
+.diagram{background:#fff;border:1px solid var(--line);border-radius:18px;overflow-x:auto;padding:16px}
+.diagram img{display:block;width:100%;min-width:760px;height:auto}
+.two{display:grid;gap:56px}
+.two>figure{min-width:0;margin:0}
+.cap{font-size:15px;color:var(--muted);max-width:70ch;margin-top:14px}
+.cap a{font-family:var(--mono);font-size:13px}
+
+/* key screens */
+.screens{display:grid;gap:clamp(64px,8vw,112px)}
+.screen{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(32px,5vw,72px);align-items:center}
+.screen:nth-child(even){grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+.screen:nth-child(even) .shots{order:2}
+.shots{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,2vw,24px);background:var(--soft);border-radius:24px;padding:clamp(18px,3vw,36px)}
+.shot{display:grid;gap:10px;justify-items:center;min-width:0}
+.shot .frame{width:100%;max-width:260px;aspect-ratio:750/1627;border-radius:26px;padding:6px;background:#111}
+.shot .frame img{display:block;width:100%;height:100%;object-fit:contain;border-radius:20px;background:#fff;padding:4px 3px}
+.shot span{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.screen h3{font-family:var(--display);font-weight:400;font-size:clamp(30px,3vw,38px);line-height:1.08;margin-bottom:14px}
+.screen .tagline{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:10px;letter-spacing:.06em;text-transform:uppercase}
+.dec{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.dec li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:8px;font-size:16px}
+.dec li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:9px}
+.dec b{font-weight:600}
+.change{margin-top:18px;font-size:15px;color:var(--muted)}
+.change b{color:var(--ink);font-weight:600}
+
+/* prototype */
+.proto-stage{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(32px,6vw,96px);align-items:center}
+.stage{background:var(--soft);border-radius:28px;padding:clamp(24px,4vw,48px);display:grid;place-items:center}
+.device{width:min(350px,100%);aspect-ratio:350/720;border-radius:46px;background:#111;padding:10px;box-shadow:0 40px 80px -40px rgba(0,40,25,.5)}
+.app-screen{position:relative;height:100%;border-radius:37px;overflow:hidden;background:#fff;color:#111;font-family:var(--app);font-size:13px;line-height:1.35}
+.steps{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:8px}
+.steps button{width:100%;display:grid;grid-template-columns:30px minmax(0,1fr);gap:12px;align-items:center;text-align:left;background:transparent;border:1px solid transparent;border-radius:12px;padding:10px 12px;font:inherit;font-size:16px;color:var(--muted);cursor:pointer}
+.steps button:hover{background:var(--soft)}
+.steps button span{font-family:var(--mono);font-size:12px;width:26px;height:26px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center}
+.steps li.on button{color:var(--ink);background:var(--soft);border-color:var(--line)}
+.steps li.on button span{background:var(--accent);border-color:var(--accent);color:#fff}
+.steps li.past button span{background:var(--accent-soft);border-color:var(--accent-soft);color:var(--accent-ink)}
+.ctrl{display:flex;gap:12px;align-items:center;margin-top:22px;flex-wrap:wrap}
+.reset{font-family:var(--mono);font-size:13px;background:var(--ink);color:#fff;border:0;padding:10px 16px;border-radius:10px;cursor:pointer}
+.toggle{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:13px;color:var(--muted);cursor:pointer;user-select:none}
+.toggle input{accent-color:var(--accent);width:16px;height:16px}
+
+/* app internals */
+.sb{display:flex;justify-content:space-between;align-items:center;padding:16px 26px 6px;font-weight:600;font-size:13px}
+.sb i{display:inline-flex;gap:5px;align-items:center}
+.scroll{position:absolute;top:40px;bottom:0;left:0;right:0;overflow-y:auto;padding:0 18px 96px;scrollbar-width:none}
+.scroll::-webkit-scrollbar{display:none}
+.top{display:flex;justify-content:space-between;align-items:center;padding:8px 0 14px}
+.logo{font-size:22px;font-weight:700;letter-spacing:-.01em}.logo span{color:#00966A}
+.ibtn{width:32px;height:32px;display:grid;place-items:center;border:0;background:transparent;cursor:pointer;border-radius:8px;color:#111}
+.search{display:flex;align-items:center;justify-content:space-between;border:1px solid #ECEFEE;border-radius:10px;padding:0 12px;height:40px;color:#8A8A8A}
+.search input{border:0;outline:0;font:inherit;flex:1;min-width:0;background:transparent;color:#111}
+.card{border:1px solid #ECEFEE;border-radius:14px;padding:10px;margin-top:14px;cursor:pointer;background:#fff;text-align:left;width:100%;font:inherit;color:inherit;display:block}
+.card .img{height:118px;border-radius:9px;background:#DDEBDD center/cover no-repeat}
+.card h4{font-size:13.5px;font-weight:500;margin:9px 0 7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prog{display:flex;align-items:center;gap:8px;font-size:10.5px;color:#8A8A8A}
+.prog .t{flex:1;height:5px;border-radius:5px;background:#EEF1F0;overflow:hidden}
+.prog .t i{display:block;height:100%;background:#00966A;border-radius:5px}
+.row{display:flex;justify-content:space-between;align-items:flex-end;margin-top:7px}
+.row small{display:block;font-size:10.5px;color:#8A8A8A}
+.row b{font-size:17px;font-weight:500}
+.left{font-size:10.5px;color:#8A8A8A;display:inline-flex;gap:4px;align-items:center}
+.cats{display:flex;gap:7px;overflow-x:auto;margin-top:6px;padding-bottom:2px;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid #ECEFEE;background:#fff;color:#8A8A8A;border-radius:7px;padding:6px 13px;font:inherit;font-size:12px;cursor:pointer}
+.chip.on{border-color:#00966A;color:#00966A;background:#F2FAF6}
+.h5{font-size:13.5px;margin-top:18px}
+.mini{display:grid;grid-template-columns:78px minmax(0,1fr);gap:12px;align-items:center;padding:9px;margin-top:10px}
+.mini .img{height:66px;width:78px}
+.mini h4{margin:0 0 3px;white-space:normal;line-height:1.25}
+.tile{display:grid;place-items:center;font-weight:700;font-size:15px;color:#00966A;background:#E3F3EC}
+.tabbar{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-around;align-items:center;padding:10px 14px 24px;background:#fff;border-top:1px solid #ECEFEE}
+.tabbar span{display:inline-flex;align-items:center;gap:6px;color:#9A9A9A;padding:7px 10px;border-radius:9px;font-size:12px}
+.tabbar span.on{background:#00966A;color:#fff}
+.hdr{display:grid;grid-template-columns:32px 1fr 32px;align-items:center;padding:6px 0 12px;font-size:16px;font-weight:600;text-align:center}
+.big{height:150px;border-radius:12px;background:#DDEBDD center/cover no-repeat}
+.dt{font-size:16px;font-weight:500;margin:14px 0 8px}
+.avs{display:flex;align-items:center;gap:8px;font-size:11px;color:#8A8A8A}
+.avs i{display:flex}.avs img{width:22px;height:22px;border-radius:50%;margin-right:-6px;border:2px solid #fff;object-fit:cover}
+.desc{color:#8A8A8A;margin-top:10px;font-size:12.5px;line-height:1.5}
+.stat{border:1px solid #ECEFEE;border-radius:12px;padding:12px;margin-top:14px}
+.stat .hd{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:9px}
+.stat .hd span:last-child{color:#8A8A8A}
+.org{display:flex;gap:10px;align-items:center;margin-top:16px}
+.org .av{width:38px;height:38px;border-radius:9px;background:#F1F3F2;display:grid;place-items:center;font-weight:500}
+.org b{display:flex;align-items:center;gap:5px;font-weight:600}
+.org small{color:#00966A;font-size:11px}
+.cta{position:absolute;left:18px;right:18px;bottom:24px;height:48px;border:0;border-radius:10px;background:#00966A;color:#fff;font:inherit;font-size:14px;font-weight:500;cursor:pointer}
+.cta:active{background:#007753}
+.sum{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;align-items:center;border:1px solid #ECEFEE;border-radius:12px;padding:8px}
+.sum .img{height:44px;border-radius:7px;background:#DDEBDD center/cover}
+.lbl{font-size:13px;margin:18px 0 9px}
+.amts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.amt{height:60px;border:1px solid #ECEFEE;border-radius:10px;background:#fff;font:inherit;font-size:20px;font-weight:700;cursor:pointer;color:#111}
+.amt.on{background:#00966A;border-color:#00966A;color:#fff}
+.custom{margin-top:10px;display:flex;align-items:center;gap:6px;height:44px;border-radius:10px;background:#F4F5F5;padding:0 12px;border:1px solid transparent}
+.custom.err{border-color:#D9452F;background:#FDF1EF}
+.custom input{border:0;outline:0;background:transparent;font:inherit;font-size:14px;flex:1;min-width:0;color:#111}
+.errmsg{color:#C2361F;font-size:11.5px;margin-top:6px;min-height:15px}
+.pay{display:flex;align-items:center;gap:10px;border:1px solid #ECEFEE;border-radius:10px;padding:12px;margin-top:8px;cursor:pointer;font:inherit;background:#fff;width:100%;text-align:left;color:#111}
+.pay .rd{width:16px;height:16px;border-radius:50%;border:2px solid #C9CFCD;flex:none}
+.pay.on{border-color:#00966A}.pay.on .rd{border:5px solid #00966A}
+.done{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px;text-align:center;gap:10px}
+.tick{width:72px;height:72px;border-radius:50%;background:#E3F3EC;display:grid;place-items:center;margin-bottom:6px}
+.done h4{font-size:19px;font-weight:600;margin:0}
+.done p{color:#8A8A8A;font-size:12.5px;line-height:1.5}
+.rcpt{width:100%;border:1px dashed #CFD6D3;border-radius:12px;padding:12px;margin-top:10px;text-align:left;display:grid;gap:6px;font-size:12px}
+.rcpt div{display:flex;justify-content:space-between;gap:10px}
+.rcpt span:first-child{color:#8A8A8A}
+.ghost{border:0;background:transparent;color:#00966A;font:inherit;font-weight:500;cursor:pointer;padding:8px}
+.spin{width:34px;height:34px;border-radius:50%;border:3px solid #E3F3EC;border-top-color:#00966A;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.empty{color:#8A8A8A;text-align:center;padding:20px 0;font-size:12px}
+/* guided hints */
+.hot{position:relative;animation:pulse 1.6s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,150,106,.55)}70%{box-shadow:0 0 0 10px rgba(0,150,106,0)}100%{box-shadow:0 0 0 0 rgba(0,150,106,0)}}
+.coach{position:absolute;left:16px;right:16px;z-index:5;background:#111;color:#fff;border-radius:12px;padding:10px 12px 10px 14px;font-size:12.5px;line-height:1.4;display:flex;gap:10px;align-items:flex-start;box-shadow:0 10px 24px rgba(0,0,0,.25);pointer-events:none}
+.coach b{color:#7FE0B9;font-weight:500;font-family:var(--mono);font-size:11px;letter-spacing:.06em;flex:none;padding-top:1px}
+.coach::after{content:"";position:absolute;left:var(--ax,50%);width:12px;height:12px;background:#111;transform:rotate(45deg);margin-left:-6px}
+.coach.below::after{top:-5px}.coach.above::after{bottom:-5px}
+
+/* design system */
+.sw{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.s{border-radius:14px;overflow:hidden;background:var(--soft)}
+.s i{display:block;height:84px}
+.s div{padding:12px 14px;display:grid;gap:1px}
+.s b{font-weight:600;font-size:15px}
+.s code{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.s span{font-size:13.5px;color:var(--muted)}
+.ds{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:20px;margin-top:20px}
+.panel{background:var(--soft);border-radius:18px;padding:26px;min-width:0}
+.panel h3{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:16px}
+.ts{display:grid;gap:10px}
+.ts div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:8px}
+.ts div:last-child{border-bottom:0}
+.ts code{font-family:var(--mono);font-size:12px;color:var(--muted);white-space:nowrap}
+.btns{display:grid;grid-template-columns:repeat(5,auto);gap:10px;justify-content:start;align-items:center}
+.b{height:36px;padding:0 16px;border-radius:7px;font-family:var(--app);font-size:13px;font-weight:500;display:inline-grid;place-items:center;border:1.5px solid transparent;white-space:nowrap}
+.b.p{background:#00966A;color:#fff}.b.ph{background:#00A876;color:#fff}.b.pf{background:#00966A;color:#fff;border-color:#F6A32D}.b.pa{background:#007753;color:#fff}.b.pd{background:#E2E5E4;color:#A3ACA8}
+.b.s{background:#fff;color:#00966A;border-color:#00966A}.b.sh{background:#00966A;color:#fff}.b.sf{background:#fff;color:#00966A;border-color:#F6A32D}.b.sa{background:#fff;color:#007753;border-color:#007753}.b.sd{background:#fff;color:#BAC2BF;border-color:#E2E6E4}
+.btn-lbl{display:grid;grid-template-columns:repeat(5,auto);gap:10px;justify-content:start;font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:8px}
+.btn-lbl span{min-width:76px}
+.ds-note{font-size:14px;color:var(--muted);margin-top:16px}
+
+/* learnt */
+.learn{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.learn div{border-top:2px solid var(--ink);padding-top:18px;display:grid;gap:8px;align-content:start}
+.learn b{font-weight:600;font-size:18px}
+.next{margin-top:48px;display:grid;gap:12px;padding:0;list-style:none;counter-reset:n;max-width:70ch}
+.next li{counter-increment:n;display:grid;grid-template-columns:36px minmax(0,1fr);gap:8px}
+.next li::before{content:counter(n);font-family:var(--mono);font-size:13px;color:var(--accent-ink);width:26px;height:26px;border-radius:50%;background:var(--accent-soft);display:grid;place-items:center;margin-top:1px}
+
+footer{margin-top:var(--section);border-top:1px solid var(--line);padding-block:40px 56px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-family:var(--mono);font-size:13px;color:var(--muted)}
+footer .links{display:flex;gap:20px;flex-wrap:wrap}
+
+@media (max-width: 960px){
+  .hero,.proto-stage,.split,.screen,.screen:nth-child(even),.ds{grid-template-columns:minmax(0,1fr)}
+  .screen:nth-child(even) .shots{order:0}
+  .apps,.learn,.stories,.board,.metrics{grid-template-columns:minmax(0,1fr)}
+  .sw{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width: 600px){
+  body{font-size:16px}
+  .nav ul{display:none}
+  .facts{grid-template-columns:minmax(0,1fr)}
+  .pair{grid-template-columns:28px minmax(0,1fr);gap:12px}
+  .pair>div:last-child{grid-column:2}
+  .ai,.scope{grid-template-columns:minmax(0,1fr)}
+  .epic{grid-template-columns:minmax(0,1fr);gap:4px}
+  .btns,.btn-lbl{grid-template-columns:repeat(3,auto)}
+  .btns .x,.btn-lbl .x{display:none}
+  .ba-wrap,.stage{border-radius:20px}
+  .shots{padding:14px;border-radius:18px}
+  .shot .frame{border-radius:18px;padding:4px}
+  .shot .frame img{border-radius:14px}
+}
+</style>
+
+<nav class="nav" id="nav" aria-label="Case study">
+  <div class="wrap">
+    <a class="brand" href="https://rima-portfolio-teal.vercel.app" target="_blank" rel="noopener">rima debnath</a>
+    <ul>
+      <li><a href="#prototype">prototype</a></li>
+      <li><a href="#overview">overview</a></li>
+      <li><a href="#ownership">ownership</a></li>
+      <li><a href="#structure">structure</a></li>
+      <li><a href="#screens">screens</a></li>
+      <li><a href="#learnt">learnt</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="wrap">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Product design case study · Mobile</p>
+      <h1>Food<span>bank</span></h1>
+      <p class="lede">A donation app that helps people find causes they trust and give in under a minute.</p>
+      <dl class="meta">
+        <div><dt>Role</dt><dd>Product designer &amp; owner</dd></div>
+        <div><dt>Scope</dt><dd>3 core flows, design system, coded prototype</dd></div>
+        <div><dt>Platform</dt><dd>iOS mobile app</dd></div>
+        <div><dt>Tools</dt><dd>Figma, Figma AI, HTML/CSS/JS</dd></div>
+      </dl>
+    </div>
+    <div class="ba-wrap">
+      <div class="tabs" role="tablist" aria-label="Screen">
+        <button role="tab" aria-selected="true" data-s="home">Home</button>
+        <button role="tab" aria-selected="false" data-s="details">Details</button>
+        <button role="tab" aria-selected="false" data-s="donate">Donate</button>
+      </div>
+      <div class="phone">
+        <div class="ba" id="ba">
+          <img class="before" id="baBefore" src="img/lofi_home.webp" alt="Home screen, low-fidelity wireframe">
+          <img class="after" id="baAfter" src="img/hifi_home.webp" alt="Home screen, final design">
+          <span class="tag l">Wireframe</span><span class="tag r">Final</span>
+          <div class="bar"></div><div class="knob" aria-hidden="true">⇆</div>
+          <input type="range" id="baRange" min="0" max="100" value="50" aria-label="Compare wireframe and final design">
+        </div>
+      </div>
+      <p class="hint">Drag to compare wireframe and final</p>
+    </div>
+  </header>
+
+  <section class="block" id="prototype" style="padding-top:0">
+    <div class="proto-stage">
+      <div class="stage"><div class="device"><div class="app-screen" id="app" aria-live="polite"></div></div></div>
+      <div>
+        <div class="sec-head" style="margin-bottom:0">
+          <p class="eyebrow">Interactive prototype</p>
+          <h2>Try the donation flow</h2>
+          <p>Follow the green hints on the phone, or jump to any step below. Try a custom amount of $0 to see the error state.</p>
+        </div>
+        <ol class="steps" id="steps">
+          <li data-k="home"><button type="button" data-jump="home"><span>1</span>Find a campaign on Home</button></li>
+          <li data-k="details"><button type="button" data-jump="details"><span>2</span>Check the campaign and organiser</button></li>
+          <li data-k="donate"><button type="button" data-jump="donate"><span>3</span>Choose an amount and payment</button></li>
+          <li data-k="done"><button type="button" data-jump="done"><span>4</span>Get the confirmation and receipt</button></li>
+        </ol>
+        <div class="ctrl">
+          <button class="reset" id="reset" type="button">Restart</button>
+          <label class="toggle"><input type="checkbox" id="hints" checked> Show hints</label>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="overview">
+    <div class="split">
+      <div class="sec-head" style="margin-bottom:0"><p class="eyebrow">Overview</p><h2>People want to give, but drop off before they finish</h2></div>
+      <div style="display:grid;gap:36px;min-width:0">
+        <div class="prose">
+          <p>Foodbank lets people donate to verified food, medicine, education and housing campaigns from their phone.</p>
+          <p>The goal was more completed donations. Donors tend to hesitate at the last step: they can't tell which causes are genuine, the flow asks too much of them, and they rarely hear what their money did.</p>
+          <p>I owned the work end to end, from turning the brief into a prioritised backlog, through flows and screens, to a coded prototype. Every decision traces back to two goals: <b>trust</b> before the donor pays, and <b>speed</b> once they decide.</p>
+        </div>
+        <div class="facts">
+          <div><b>3</b><span>screens from discovery to receipt</span></div>
+          <div><b>1</b><span>screen for amount and payment</span></div>
+          <div><b>&lt;60s</b><span>target time to donate</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="problem">
+    <div class="sec-head"><p class="eyebrow">Problem → solution</p><h2>Five reasons donors drop off, and the fix for each</h2></div>
+    <div class="pairs">
+      <div class="pair"><span class="n">01</span><div><span class="k p">Problem</span>Donors can't tell whether a campaign or organiser is legitimate.</div><div><span class="k s">Solution</span>A verified organiser badge on every campaign.</div></div>
+      <div class="pair"><span class="n">02</span><div><span class="k p">Problem</span>Too many causes, with no clear way to narrow them down.</div><div><span class="k s">Solution</span>Search plus category chips: Food, Medicine, Education, Housing.</div></div>
+      <div class="pair"><span class="n">03</span><div><span class="k p">Problem</span>Long checkout flows with extra steps make donors abandon.</div><div><span class="k s">Solution</span>Amount and payment on one screen, then a single Pay &amp; Confirm.</div></div>
+      <div class="pair"><span class="n">04</span><div><span class="k p">Problem</span>Choosing an amount causes hesitation when there's no guidance.</div><div><span class="k s">Solution</span>Four preset amounts with $50 pre-selected, plus a custom field.</div></div>
+      <div class="pair"><span class="n">05</span><div><span class="k p">Problem</span>No receipt or update after giving, so there's no reason to return.</div><div><span class="k s">Solution</span>A success screen with a receipt, and history in My Donations.</div></div>
+    </div>
+  </section>
+
+  <section class="block" id="review">
+    <div class="sec-head">
+      <p class="eyebrow">Competitor review</p>
+      <h2>What existing donation apps get right, and what they leave open</h2>
+      <p>I studied three donation apps to see what earns trust and where giving still feels hard. Each gap became a requirement on the backlog.</p>
+    </div>
+    <div class="apps">
+      <article class="app">
+        <div><h3>ShareTheMeal</h3><p class="sub">UN World Food Programme</p></div>
+        <div class="good"><p class="k">Works well</p><p>Giving takes a few taps, and the cost of one meal is shown clearly.</p></div>
+        <div class="gap"><p class="k">Gap Foodbank addresses</p><p>Food only, with no way to compare causes across categories.</p></div>
+      </article>
+      <article class="app">
+        <div><h3>Ketto</h3><p class="sub">Crowdfunding, India</p></div>
+        <div class="good"><p class="k">Works well</p><p>Monthly giving with preset amounts, plus monthly impact updates.</p></div>
+        <div class="gap"><p class="k">Gap Foodbank addresses</p><p>Mostly individual medical fundraisers, so trust depends on each campaign.</p></div>
+      </article>
+      <article class="app">
+        <div><h3>Give (GiveIndia)</h3><p class="sub">Giving platform, India</p></div>
+        <div class="good"><p class="k">Works well</p><p>NGOs are vetted before listing, with instant tax receipts and impact reports.</p></div>
+        <div class="gap"><p class="k">Gap Foodbank addresses</p><p>A large catalogue that takes effort to browse on a phone.</p></div>
+      </article>
+    </div>
+    <p class="note">Details from each organisation's own site, checked October 2026: <a href="https://wfpusa.org/news/sharethemeal-app-fights-hunger-in-one-tap/" target="_blank" rel="noopener">ShareTheMeal</a>, <a href="https://www.ketto.org/blog/now-donate-faster-through-kettos-sip-app" target="_blank" rel="noopener">Ketto</a>, <a href="https://give.do/blog/donate-to-trusted-ngo-donate-with-give/" target="_blank" rel="noopener">Give</a>.</p>
+  </section>
+
+  <section class="block" id="ownership">
+    <div class="sec-head"><p class="eyebrow">From brief to backlog</p><h2>Owning the what, not just the how it looks</h2><p>I shaped the scope the way it would be delivered: a prioritised backlog, stories engineers could build against, and the measures that would show it worked.</p></div>
+    <div class="own">
+      <div>
+        <h3>Prioritised backlog</h3>
+        <p class="sub">Scoped with MoSCoW so the first release solves the drop-off problem and nothing else.</p>
+        <div class="board">
+          <div class="lane"><h4>Now <span>release 1</span></h4>
+            <div class="item"><b>Browse and filter campaigns by category</b><small><span class="pill m">Must</span>Home</small></div>
+            <div class="item"><b>Campaign details with progress and verified organiser</b><small><span class="pill m">Must</span>Details</small></div>
+            <div class="item"><b>One-screen amount and payment</b><small><span class="pill m">Must</span>Donate</small></div>
+            <div class="item"><b>Confirmation with receipt</b><small><span class="pill m">Must</span>Success</small></div>
+          </div>
+          <div class="lane"><h4>Next <span>release 2</span></h4>
+            <div class="item"><b>My Donations history and receipts</b><small><span class="pill s">Should</span>My Donations</small></div>
+            <div class="item"><b>Impact updates from organisers</b><small><span class="pill s">Should</span>Notifications</small></div>
+            <div class="item"><b>Wallet balance and saved cards</b><small><span class="pill s">Should</span>Wallet</small></div>
+          </div>
+          <div class="lane"><h4>Later</h4>
+            <div class="item"><b>Recurring monthly giving</b><small><span class="pill c">Could</span>Donate</small></div>
+            <div class="item"><b>Tax receipts by region</b><small><span class="pill c">Could</span>Profile</small></div>
+            <div class="item"><b>Share a campaign with friends</b><small><span class="pill c">Could</span>Details</small></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3>User stories with acceptance criteria</h3>
+        <p class="sub">Each story states who it's for and why, and lists the rules a build must meet to count as done.</p>
+        <p class="epic"><span>Epic</span>As a donor, I want to find a campaign I trust and give in a few taps, so that my help reaches a real cause without effort.</p>
+        <div class="stories">
+          <article class="story">
+            <p class="id">US-01 · Verified organiser</p>
+            <p class="as">As a donor, I want to see who runs a campaign, so that I know my money reaches a real cause.</p>
+            <ol class="ac">
+              <li>Every campaign shows its organiser's name and a verified badge.</li>
+              <li>The organiser sits directly above the Donate Now button.</li>
+              <li>Only verified organisers can publish campaigns.</li>
+            </ol>
+          </article>
+          <article class="story">
+            <p class="id">US-02 · Choose an amount</p>
+            <p class="as">As a donor, I want suggested amounts, so that I don't stall deciding how much to give.</p>
+            <ol class="ac">
+              <li>$10, $20, $50 and $200 are shown, with $50 pre-selected.</li>
+              <li>A custom amount field is always available.</li>
+              <li>Amounts below $1 or above $10,000 show an inline error and block payment.</li>
+            </ol>
+          </article>
+          <article class="story">
+            <p class="id">US-03 · Donation receipt</p>
+            <p class="as">As a donor, I want proof my donation went through, so that I can trust the app next time.</p>
+            <ol class="ac">
+              <li>A success screen shows amount, campaign, payment method and a reference number.</li>
+              <li>The receipt is saved to My Donations.</li>
+              <li>A failed payment returns me to payment with my amount kept.</li>
+            </ol>
+          </article>
+        </div>
+        <div class="scope">
+          <div><h4>Out of scope for release 1</h4><ul><li>Recurring monthly giving</li><li>Tax receipts by region</li><li>Organiser-side campaign creation</li></ul></div>
+          <div><h4>Dependencies</h4><ul><li>Payment gateway for PayPal and card</li><li>Organiser verification process</li><li>Campaign data with live raised totals</li></ul></div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Object model</h3>
+        <p class="sub">The core objects and how they relate. Screens are views of these, which keeps naming and data consistent across the app.</p>
+        <div class="om" role="img" aria-label="Object model: an Organizer runs many Campaigns; a Campaign belongs to a Category and receives many Donations; a Donor makes Donations; each Donation produces one Receipt.">
+          <svg viewBox="0 0 1040 290" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Mono, ui-monospace, monospace">
+            <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#9AA19E"/></marker></defs>
+            <g stroke="#9AA19E" stroke-width="1.5" fill="none">
+              <path d="M180 80 H296" marker-end="url(#ar)"/>
+              <path d="M540 80 H656" marker-end="url(#ar)"/>
+              <path d="M880 80 H824" marker-end="url(#ar)"/>
+              <path d="M420 120 V196" marker-end="url(#ar)"/>
+              <path d="M740 120 V196" marker-end="url(#ar)" stroke="#F6A32D" stroke-dasharray="5 4"/>
+            </g>
+            <g font-size="12" fill="#5F6563">
+              <text x="238" y="68" text-anchor="middle">runs many</text>
+              <text x="598" y="68" text-anchor="middle">receives many</text>
+              <text x="852" y="68" text-anchor="middle">makes</text>
+              <text x="432" y="164">belongs to</text>
+              <text x="752" y="164" fill="#9A5B00">produces 1</text>
+            </g>
+            <g text-anchor="middle">
+              <rect x="20" y="40" width="160" height="80" rx="12" fill="#fff" stroke="#0B0B0B" stroke-width="1.5"/>
+              <text x="100" y="74" font-size="15" font-weight="500" fill="#0B0B0B">Organizer</text>
+              <text x="100" y="96" font-size="11.5" fill="#5F6563">name · verified</text>
+              <rect x="300" y="40" width="240" height="80" rx="12" fill="#00966A"/>
+              <text x="420" y="74" font-size="15" font-weight="500" fill="#fff">Campaign</text>
+              <text x="420" y="96" font-size="11.5" fill="#E3F3EC">goal · raised · time left</text>
+              <rect x="660" y="40" width="160" height="80" rx="12" fill="#fff" stroke="#0B0B0B" stroke-width="1.5"/>
+              <text x="740" y="74" font-size="15" font-weight="500" fill="#0B0B0B">Donation</text>
+              <text x="740" y="96" font-size="11.5" fill="#5F6563">amount · method · ref</text>
+              <rect x="880" y="40" width="140" height="80" rx="12" fill="#fff" stroke="#0B0B0B" stroke-width="1.5"/>
+              <text x="950" y="74" font-size="15" font-weight="500" fill="#0B0B0B">Donor</text>
+              <text x="950" y="96" font-size="11.5" fill="#5F6563">gives many</text>
+              <rect x="340" y="200" width="160" height="70" rx="12" fill="#fff" stroke="#0B0B0B" stroke-width="1.5"/>
+              <text x="420" y="231" font-size="15" font-weight="500" fill="#0B0B0B">Category</text>
+              <text x="420" y="252" font-size="11.5" fill="#5F6563">food · medicine · …</text>
+              <rect x="660" y="200" width="160" height="70" rx="12" fill="#FFF4E2" stroke="#F6A32D" stroke-width="1.5"/>
+              <text x="740" y="231" font-size="15" font-weight="500" fill="#0B0B0B">Receipt</text>
+              <text x="740" y="252" font-size="11.5" fill="#9A5B00">saved to My Donations</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div>
+        <h3>How we'd know it worked</h3>
+        <p class="sub">Each measure maps to a backlog item, so testing would show which decision moved the number.</p>
+        <div class="metrics">
+          <div class="metric"><b>&lt;60s</b><span>Target time from opening a campaign to confirmed donation</span><small>one-screen checkout</small></div>
+          <div class="metric"><b>Checkout drop-off</b><span>Share of donors who open Donate but don't pay</span><small>presets + single step</small></div>
+          <div class="metric"><b>Repeat donors</b><span>Donors who give again within 30 days</span><small>receipts + impact updates</small></div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Where AI helped, and where I decided</h3>
+        <p class="sub">AI tools sped up production. The product calls stayed mine.</p>
+        <div class="ai">
+          <div><h4>AI-assisted</h4><ul><li>First prototype generated with Figma AI, then refined by hand</li><li>Coded prototype on this page built with AI-assisted development</li><li>Variations of empty and error states explored quickly</li></ul></div>
+          <div><h4>My judgment</h4><ul><li>What goes in release 1 and what waits</li><li>Merging amount and payment into one screen</li><li>Where trust cues sit, and pre-selecting $50</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="structure">
+    <div class="sec-head"><p class="eyebrow">Structure</p><h2>Four tabs, one path to giving</h2></div>
+    <div class="two">
+      <figure>
+        <div class="diagram"><img src="img/ia.svg" alt="Information architecture: splash, onboarding and sign up or sign in lead to a home hub with four tabs: Home, Wallet, My Donations and Profile. Discovery and donating sit under Home."></div>
+        <figcaption class="cap"><b>Information architecture.</b> Every key task is one tap from the bottom bar. Discovery and giving live under Home, so finding a cause and donating never leave one branch. <a href="img/ia.svg" target="_blank" rel="noopener">Open full size</a></figcaption>
+      </figure>
+      <figure>
+        <div class="diagram"><img src="img/flow.svg" alt="User flow from opening the app to a completed donation, with loops back when the amount is invalid or payment fails."></div>
+        <figcaption class="cap"><b>Donation flow.</b> It covers the two moments donors are most likely to drop off, an invalid amount and a failed payment. Each loops back to the right step instead of a dead end. <a href="img/flow.svg" target="_blank" rel="noopener">Open full size</a></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="block" id="screens">
+    <div class="sec-head"><p class="eyebrow">Key screens</p><h2>Wireframe to final</h2><p>Hierarchy was settled in greyscale first. Colour, photography and trust cues came after.</p></div>
+    <div class="screens">
+      <article class="screen">
+        <div class="shots">
+          <div class="shot"><div class="frame"><img src="img/lofi_home.webp" alt="Home wireframe"></div><span>Wireframe</span></div>
+          <div class="shot"><div class="frame"><img src="img/hifi_home.webp" alt="Home final design"></div><span>Final</span></div>
+        </div>
+        <div>
+          <p class="tagline">Home</p><h3>Find a cause fast</h3>
+          <ul class="dec">
+            <li><span><b>Search first</b> for donors who know what they want.</span></li>
+            <li><span><b>One featured campaign</b> with progress and time left.</span></li>
+            <li><span><b>Category chips</b> filter the list in one tap.</span></li>
+          </ul>
+          <p class="change"><b>Changed from wireframe:</b> labelled search with an icon, and a green outline on the active chip.</p>
+        </div>
+      </article>
+      <article class="screen">
+        <div class="shots">
+          <div class="shot"><div class="frame"><img src="img/lofi_details.webp" alt="Details wireframe"></div><span>Wireframe</span></div>
+          <div class="shot"><div class="frame"><img src="img/hifi_details.webp" alt="Details final design"></div><span>Final</span></div>
+        </div>
+        <div>
+          <p class="tagline">Details</p><h3>Earn trust before asking for money</h3>
+          <ul class="dec">
+            <li><span><b>Social proof</b>: donor avatars and a count.</span></li>
+            <li><span><b>Live progress</b>: amount raised and time left.</span></li>
+            <li><span><b>Verified organiser</b> right above Donate Now.</span></li>
+          </ul>
+          <p class="change"><b>Changed from wireframe:</b> the verified badge and progress bar took colour, the two strongest trust cues.</p>
+        </div>
+      </article>
+      <article class="screen">
+        <div class="shots">
+          <div class="shot"><div class="frame"><img src="img/lofi_donate.webp" alt="Donate wireframe"></div><span>Wireframe</span></div>
+          <div class="shot"><div class="frame"><img src="img/hifi_donate.webp" alt="Donate final design"></div><span>Final</span></div>
+        </div>
+        <div>
+          <p class="tagline">Donate</p><h3>Amount and payment on one screen</h3>
+          <ul class="dec">
+            <li><span><b>Four presets</b>, with $50 as a gentle anchor.</span></li>
+            <li><span><b>Custom amount</b> without competing with presets.</span></li>
+            <li><span><b>PayPal or card</b>, then one Pay &amp; Confirm.</span></li>
+          </ul>
+          <p class="change"><b>Changed from wireframe:</b> heavy outlines became soft fills, so the selection stands out.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="block" id="system">
+    <div class="sec-head"><p class="eyebrow">Design system</p><h2>Calm surfaces, one confident green</h2><p>Neutral surfaces let campaign photos carry the emotion. Green is for action and progress, orange for urgency.</p></div>
+    <div class="sw">
+      <div class="s"><i style="background:#00966A"></i><div><b>Primary</b><code>#00966A</code><span>Buttons, progress, active tab</span></div></div>
+      <div class="s"><i style="background:#F6A32D"></i><div><b>Secondary</b><code>#F6A32D</code><span>Urgency, focus ring</span></div></div>
+      <div class="s"><i style="background:#000000"></i><div><b>Text</b><code>#000000</code><span>Headings and body</span></div></div>
+      <div class="s"><i style="background:#D2D6E2"></i><div><b>Background</b><code>#D2D6E2</code><span>Dividers and surfaces</span></div></div>
+      <div class="s"><i style="background:#FF5630"></i><div><b>Error</b><code>#FF5630</code><span>Invalid amount, failed payment</span></div></div>
+      <div class="s"><i style="background:#FFAB00"></i><div><b>Warning</b><code>#FFAB00</code><span>Campaign ending soon</span></div></div>
+      <div class="s"><i style="background:#38CB89"></i><div><b>Success</b><code>#38CB89</code><span>Donation confirmed</span></div></div>
+      <div class="s"><i style="background:#377DFF"></i><div><b>Info</b><code>#377DFF</code><span>Verified badge</span></div></div>
+    </div>
+    <div class="ds">
+      <div class="panel">
+        <h3>Buttons</h3>
+        <div class="btn-lbl"><span>Default</span><span>Hover</span><span>Focused</span><span class="x">Active</span><span class="x">Disabled</span></div>
+        <div class="btns">
+          <span class="b p">Donate</span><span class="b ph">Donate</span><span class="b pf">Donate</span><span class="b pa x">Donate</span><span class="b pd x">Donate</span>
+          <span class="b s">Donate</span><span class="b sh">Donate</span><span class="b sf">Donate</span><span class="b sa x">Donate</span><span class="b sd x">Donate</span>
+        </div>
+        <p class="ds-note">Primary and secondary, five states each, at L 18, S 14 and XS 12 text sizes.</p>
+      </div>
+      <div class="panel">
+        <h3>Type scale</h3>
+        <div class="ts">
+          <div><span style="font-weight:700;font-size:26px;font-family:var(--app)">H1 Heading</span><code>56 / 64</code></div>
+          <div><span style="font-weight:700;font-size:20px;font-family:var(--app)">H3 Heading</span><code>32 / 36</code></div>
+          <div><span style="font-size:16px;font-family:var(--app)">B1 Body text</span><code>16 / 24</code></div>
+          <div><span style="font-size:14px;font-family:var(--app)">B2 Body text</span><code>14 / 20</code></div>
+          <div><span style="font-size:12px;font-family:var(--app);color:var(--muted)">F2 Field label</span><code>12 / 16</code></div>
+        </div>
+        <p class="ds-note">Headings in Made Outer Sans, body and fields in Roboto.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="learnt">
+    <div class="sec-head"><p class="eyebrow">What I learnt</p><h2>Trust does more persuading than visuals</h2></div>
+    <div class="learn">
+      <div><b>Trust signals carry the screen.</b><p>The verified badge and live progress persuade more than polish does.</p></div>
+      <div><b>Removing a step beats restyling one.</b><p>Merging amount and payment simplified checkout more than any visual tweak.</p></div>
+      <div><b>Scope is a design decision.</b><p>Holding recurring giving for later kept release 1 focused on the one problem that mattered.</p></div>
+    </div>
+    <ol class="next">
+      <li>Usability test with five donors, measuring time to donate and drop-off points.</li>
+      <li>Design the post-donation experience: receipts and impact updates in My Donations.</li>
+      <li>Add recurring monthly giving, the strongest pattern in the competitor review.</li>
+    </ol>
+  </section>
+
+  <footer>
+    <span>Rima Debnath · Product designer · 2026</span>
+    <span class="links"><a href="https://rima-portfolio-teal.vercel.app" target="_blank" rel="noopener">Portfolio</a><a href="https://lms-product-design-case-study.vercel.app/" target="_blank" rel="noopener">LMS case study</a></span>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var nav=document.getElementById('nav');
+  addEventListener('scroll',function(){nav.classList.toggle('scrolled',scrollY>8);},{passive:true});
+
+  /* before / after */
+  var ba=document.getElementById('ba'), r=document.getElementById('baRange'),
+      bef=document.getElementById('baBefore'), aft=document.getElementById('baAfter');
+  r.addEventListener('input',function(){ba.style.setProperty('--pos',r.value+'%');});
+  var names={home:'Home',details:'Details',donate:'Donate'};
+  document.querySelectorAll('.tabs button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.tabs button').forEach(function(x){x.setAttribute('aria-selected',x===b?'true':'false');});
+      var s=b.dataset.s;
+      bef.src='img/lofi_'+s+'.webp'; bef.alt=names[s]+' screen, low-fidelity wireframe';
+      aft.src='img/hifi_'+s+'.webp'; aft.alt=names[s]+' screen, final design';
+    });
+  });
+
+  /* prototype */
+  var app=document.getElementById('app'), hintsBox=document.getElementById('hints');
+  var AV=['img/av1.webp','img/av2.webp','img/av3.webp','img/av4.webp'];
+  var C=[
+    {id:'food',cat:'Food',title:'Fresh Food for Improving lives in Africa',img:'img/food.webp',raised:40000,goal:50000,left:'8 hours left',org:'DWs Foundation',ini:'DW',donors:'100+',
+     desc:'Good nutritious meals are everything in life and help to grow and develop and even save lives from the threat of deadly diseases. Every help counts.'},
+    {id:'school',cat:'Education',title:'Help kids Get Back to Good Schools',img:'img/kids.webp',raised:500,goal:2500,left:'2 days left',org:'Bright Futures Trust',ini:'BF',donors:'12',
+     desc:'School supplies, uniforms and fees for children returning to class after a year away. Every kit gets one child back in a classroom.'},
+    {id:'kitchen',cat:'Food',title:'Community Kitchen Meals for Seniors',img:'',raised:3100,goal:8000,left:'6 days left',org:'Open Table Collective',ini:'OT',donors:'48',
+     desc:'Hot daily meals for seniors living alone, cooked and delivered by a volunteer kitchen.'},
+    {id:'med',cat:'Medicine',title:'Medicine for Rural Health Clinics',img:'',raised:7200,goal:12000,left:'5 days left',org:'CareReach',ini:'CR',donors:'64',
+     desc:'Essential medicines for three rural clinics that serve families hours from the nearest hospital.'},
+    {id:'home',cat:'Housing',title:'Safe Shelter for Flood-hit Families',img:'',raised:15600,goal:20000,left:'3 days left',org:'Roofline Relief',ini:'RR',donors:'210',
+     desc:'Temporary shelter and repair kits for families whose homes were damaged by monsoon floods.'}
+  ];
+  var S;
+  function fresh(){return {screen:'home',cat:'All',q:'',c:C[0],amt:50,custom:'',err:'',pay:'paypal',ref:''};}
+  function reset(){S=fresh();render();}
+  function money(n){return '$'+n.toLocaleString('en-US');}
+  function pct(c){return Math.round(c.raised/c.goal*100);}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m];});}
+  var ic={
+    bell:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/><circle cx="18" cy="5" r="2.4" fill="#00966A" stroke="none"/></svg>',
+    search:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00966A" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+    back:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>',
+    more:'<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="5" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="12" cy="19" r="1.8"/></svg>',
+    clock:'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    badge:'<svg width="14" height="14" viewBox="0 0 24 24"><path fill="#377DFF" d="m12 2 2.4 1.8 3-.2.9 2.9 2.5 1.7-.9 2.9.9 2.9-2.5 1.7-.9 2.9-3-.2L12 22l-2.4-1.8-3 .2-.9-2.9-2.5-1.7.9-2.9-.9-2.9 2.5-1.7.9-2.9 3 .2z"/><path d="m8 12 3 3 5-6" stroke="#fff" stroke-width="2" fill="none"/></svg>',
+    home:'<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M3 11 12 3l9 8v10h-6v-6H9v6H3z"/></svg>',
+    card:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>',
+    bag:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 7h14l-1 13H6z"/><path d="M9 10a3 3 0 0 0 6 0"/></svg>',
+    user:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
+    check:'<svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#00966A" stroke-width="2.4"><path d="m5 12 5 5 9-10"/></svg>'
+  };
+  var sb='<div class="sb"><span>9:41</span><i><svg width="16" height="10" viewBox="0 0 16 10" fill="#111"><rect x="0" y="7" width="3" height="3" rx="1"/><rect x="4.3" y="5" width="3" height="5" rx="1"/><rect x="8.6" y="2.5" width="3" height="7.5" rx="1"/><rect x="12.9" y="0" width="3" height="10" rx="1"/></svg><svg width="22" height="11" viewBox="0 0 22 11"><rect x=".5" y=".5" width="19" height="10" rx="3" fill="none" stroke="#111"/><rect x="2" y="2" width="16" height="7" rx="2" fill="#111"/></svg></i></div>';
+  function img(c,cls){return c.img?'<div class="img '+(cls||'')+'" style="background-image:url('+c.img+')"></div>':'<div class="img tile '+(cls||'')+'" aria-hidden="true">'+c.ini+'</div>';}
+  function prog(c){return '<div class="prog"><span class="t"><i style="width:'+pct(c)+'%"></i></span><span>'+pct(c)+'%</span></div>';}
+  function tabbar(){return '<div class="tabbar" aria-hidden="true"><span class="on">'+ic.home+'Home</span><span>'+ic.card+'</span><span>'+ic.bag+'</span><span>'+ic.user+'</span></div>';}
+
+  function home(){
+    var f=C[0], q=S.q.trim().toLowerCase();
+    var list=C.filter(function(c){
+      if(q) return (c.title+' '+c.cat).toLowerCase().indexOf(q)>-1;
+      return c.id!=='food' && (S.cat==='All'||c.cat===S.cat);
+    });
+    var h=sb+'<div class="scroll"><div class="top"><span class="logo">Food<span>bank.</span></span><button class="ibtn" aria-label="Notifications">'+ic.bell+'</button></div>'+
+      '<label class="search"><input id="q" placeholder="Search category" value="'+esc(S.q)+'" aria-label="Search campaigns">'+ic.search+'</label>';
+    if(!q){
+      h+='<button class="card" data-open="food">'+img(f)+'<h4>'+f.title+'</h4>'+prog(f)+'<div class="row"><span><small>Donation Raised</small><b>'+money(f.raised)+'</b></span><span class="left">'+ic.clock+' '+f.left+'</span></div></button>';
+      h+='<div class="h5">Categories</div><div class="cats">'+['All','Food','Medicine','Education','Housing'].map(function(c){return '<button class="chip'+(S.cat===c?' on':'')+'" data-cat="'+c+'" aria-pressed="'+(S.cat===c)+'">'+c+'</button>';}).join('')+'</div>';
+    }
+    h+= list.length? list.map(function(c){return '<button class="card mini" data-open="'+c.id+'">'+img(c)+'<span><h4>'+c.title+'</h4><span class="left">'+ic.clock+' '+c.left+'</span><div class="row" style="margin-top:3px"><span><b style="font-size:14px">'+money(c.raised)+'</b> <small style="display:inline">Raised</small></span><span class="left">'+pct(c)+'%</span></div></span></button>';}).join('')
+       : '<p class="empty">No campaigns match "'+esc(S.q)+'".</p>';
+    return h+'</div>'+tabbar();
+  }
+  function details(){
+    var c=S.c;
+    return sb+'<div class="scroll"><div class="hdr"><button class="ibtn" data-go="home" aria-label="Back">'+ic.back+'</button><span>Details</span><button class="ibtn" aria-label="More">'+ic.more+'</button></div>'+
+      (c.img?'<div class="big" style="background-image:url('+c.img+')"></div>':'<div class="big tile" style="font-size:34px">'+c.ini+'</div>')+
+      '<div class="dt">'+c.title+'</div><div class="avs"><i>'+AV.map(function(a){return '<img src="'+a+'" alt="">';}).join('')+'</i><span style="margin-left:8px">'+c.donors+' people donated</span></div>'+
+      '<p class="desc">'+c.desc+'</p>'+
+      '<div class="stat"><div class="hd"><span>Statistic Progress</span><span>'+c.left+'</span></div>'+prog(c)+'<div class="row"><span><b>'+money(c.raised)+'</b> <small style="display:inline">Raised</small></span><span class="left">of '+money(c.goal)+'</span></div></div>'+
+      '<div class="org" id="orgRow"><span class="av">'+c.ini+'</span><span><b>'+c.org+' '+ic.badge+'</b><small>Verified Organizer</small></span></div>'+
+      '</div><button class="cta" data-go="donate">Donate Now</button>';
+  }
+  function amountVal(){return S.custom!==''? Number(S.custom) : S.amt;}
+  function donate(){
+    var c=S.c;
+    return sb+'<div class="scroll"><div class="hdr"><button class="ibtn" data-go="details" aria-label="Back">'+ic.back+'</button><span>Donate</span><span></span></div>'+
+      '<div class="sum">'+img(c)+'<span style="font-weight:500">'+c.title+'</span></div>'+
+      '<div class="lbl">Select Amount</div><div class="amts">'+[20,50,10,200].map(function(a){return '<button class="amt'+(S.custom===''&&S.amt===a?' on':'')+'" data-amt="'+a+'">$'+a+'</button>';}).join('')+'</div>'+
+      '<label class="custom'+(S.err?' err':'')+'"><span style="color:#8A8A8A">$</span><input id="custom" inputmode="decimal" placeholder="Enter amount manually" value="'+esc(S.custom)+'" aria-label="Custom amount" aria-invalid="'+(S.err?'true':'false')+'" aria-describedby="errmsg"></label>'+
+      '<div class="errmsg" id="errmsg">'+S.err+'</div>'+
+      '<div class="lbl" style="margin-top:6px">Select Payment</div>'+
+      [['paypal','Paypal'],['card','Card']].map(function(p){return '<button class="pay'+(S.pay===p[0]?' on':'')+'" data-pay="'+p[0]+'" aria-pressed="'+(S.pay===p[0])+'"><span class="rd"></span>'+p[1]+'</button>';}).join('')+
+      '</div><button class="cta" data-go="pay">Pay &amp; Confirm '+(S.err?'':money(amountVal()||0))+'</button>';
+  }
+  function processing(){return sb+'<div class="done"><div class="spin" role="status" aria-label="Processing payment"></div><p>Processing your donation…</p></div>';}
+  function done(){
+    var c=S.c, a=amountVal();
+    if(!S.ref) S.ref='FB-'+(10000+Math.floor(Math.random()*89999));
+    return sb+'<div class="done"><div class="tick">'+ic.check+'</div><h4>Thank you!</h4><p>Your '+money(a)+' donation to '+c.org+' is confirmed. The receipt is saved in My Donations.</p>'+
+      '<div class="rcpt"><div><span>Campaign</span><span style="text-align:right">'+c.title+'</span></div><div><span>Amount</span><b>'+money(a)+'</b></div><div><span>Paid with</span><span>'+(S.pay==='paypal'?'PayPal':'Card')+'</span></div><div><span>Reference</span><span>'+S.ref+'</span></div></div>'+
+      '<button class="cta" style="position:static;width:100%;margin-top:14px" data-go="home">Back to Home</button><button class="ghost" data-go="share">Share this campaign</button></div>';
+  }
+  var HINTS={
+    home:{sel:'[data-open="food"]',t:'Tap a campaign to see its details. You can also filter by category.'},
+    details:{sel:'.cta',t:'The verified organiser is just above. Tap Donate Now.'},
+    donate:{sel:'[data-go="pay"]',t:'Pick an amount or type your own, choose a payment method, then tap Pay & Confirm.'},
+    done:{sel:'[data-go="home"]',t:'Donation confirmed. Tap Back to Home to try another campaign.'}
+  };
+  var order=['home','details','donate','done'];
+  function showHint(){
+    var old=app.querySelector('.coach'); if(old) old.remove();
+    app.querySelectorAll('.hot').forEach(function(e){e.classList.remove('hot');});
+    if(!hintsBox.checked) return;
+    var h=HINTS[S.screen]; if(!h) return;
+    var t=app.querySelector(h.sel); if(!t) return;
+    t.classList.add('hot');
+    var n=order.indexOf(S.screen)+1;
+    var co=document.createElement('div'); co.className='coach'; co.setAttribute('aria-hidden','true');
+    co.innerHTML='<b>STEP '+n+'/4</b><span>'+h.t.replace('&','&amp;')+'</span>';
+    app.appendChild(co);
+    var ar=app.getBoundingClientRect(), tr=t.getBoundingClientRect();
+    var cx=Math.max(30,Math.min(ar.width-30,tr.left-ar.left+tr.width/2))-16;
+    co.style.setProperty('--ax',cx+'px');
+    var spaceBelow=ar.bottom-tr.bottom;
+    if(spaceBelow>co.offsetHeight+30 && S.screen==='home'){co.classList.add('below');co.style.top=(tr.bottom-ar.top+12)+'px';}
+    else {co.classList.add('above');co.style.top=(tr.top-ar.top-co.offsetHeight-12)+'px';}
+  }
+  function render(){
+    var v=S.screen;
+    app.innerHTML= v==='home'?home(): v==='details'?details(): v==='donate'?donate(): v==='processing'?processing(): done();
+    var step=v==='processing'?'donate':v, idx=order.indexOf(step);
+    document.querySelectorAll('#steps li').forEach(function(li,i){li.classList.toggle('on',i===idx);li.classList.toggle('past',i<idx);});
+    showHint();
+  }
+  function validate(){
+    if(S.custom==='') {S.err='';return true;}
+    var n=Number(S.custom);
+    if(!isFinite(n)||n<1) S.err='Enter an amount of at least $1.';
+    else if(n>10000) S.err='The most you can give at once is $10,000.';
+    else S.err='';
+    return !S.err;
+  }
+  app.addEventListener('click',function(e){
+    var t=e.target.closest('button'); if(!t) return;
+    if(t.dataset.open){S.c=C.filter(function(c){return c.id===t.dataset.open;})[0];S.screen='details';S.custom='';S.err='';S.amt=50;S.ref='';render();var sc=app.querySelector('.scroll');if(sc)sc.scrollTop=0;showHint();return;}
+    if(t.dataset.cat){S.cat=t.dataset.cat;render();return;}
+    if(t.dataset.amt){S.amt=Number(t.dataset.amt);S.custom='';S.err='';render();return;}
+    if(t.dataset.pay){S.pay=t.dataset.pay;render();return;}
+    var g=t.dataset.go;
+    if(g==='pay'){ if(!validate()){render();var i=document.getElementById('custom');if(i)i.focus();return;} S.screen='processing';S.ref='';render();setTimeout(function(){if(S.screen==='processing'){S.screen='done';render();}},1100);return;}
+    if(g==='share'){t.textContent='Link copied (demo)';return;}
+    if(g){if(g==='home'){S.q='';} S.screen=g;render();}
+  });
+  app.addEventListener('input',function(e){
+    var id=e.target.id; if(id!=='q'&&id!=='custom') return;
+    if(id==='q') S.q=e.target.value; else {S.custom=e.target.value.replace(/[^0-9.]/g,'');S.err='';}
+    var p=e.target.selectionStart; render(); var el=document.getElementById(id); el.focus(); try{el.setSelectionRange(p,p);}catch(_){}
+  });
+  app.querySelector && app.addEventListener('scroll',function(){showHint();},true);
+  document.querySelectorAll('[data-jump]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var k=b.dataset.jump; if(!S.c) S.c=C[0];
+      if(k==='done'){S.ref='';} S.screen=k; render();
+    });
+  });
+  hintsBox.addEventListener('change',showHint);
+  document.getElementById('reset').addEventListener('click',reset);
+  addEventListener('resize',showHint);
+  reset();
+})();
+</script>
+
+</body></html>
