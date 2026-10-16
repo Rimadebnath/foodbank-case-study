@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Foodbank Case Study</title>
 <meta name="description" content="Foodbank: a donation app designed and owned end to end by Rima Debnath. Product design case study.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -127,6 +127,17 @@ section.block{padding-block:var(--section) 0}
 .metric b{font-family:var(--display);font-weight:400;font-size:36px;line-height:1}
 .metric span{font-size:15px}
 .metric small{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.uc{border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:0}
+.uc-row{display:grid;grid-template-columns:170px minmax(0,1fr);border-top:1px solid var(--line)}
+.uc-row:first-child{border-top:0}
+.uc-row>*{padding:12px 16px}
+.uc-row dt{font-family:var(--mono);font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);background:var(--soft)}
+.uc-row dd{margin:0;font-size:15px}
+.uc-row ol{margin:0;padding-left:18px;display:grid;gap:3px}
+.dod{display:flex;flex-wrap:wrap;gap:10px}
+.dod span{display:inline-flex;align-items:center;gap:8px;font-size:15px;padding:9px 14px;border-radius:999px;background:var(--accent-soft)}
+.dod span::before{content:"\2713";color:var(--accent-ink);font-weight:600}
+@media (max-width:600px){.uc-row{grid-template-columns:minmax(0,1fr)}.uc-row dt{padding-bottom:4px}}
 .ai{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
 .ai div{border-radius:16px;padding:22px;display:grid;gap:8px;align-content:start}
 .ai div:first-child{background:var(--accent-soft)} .ai div:last-child{background:var(--warm-soft)}
@@ -311,6 +322,7 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
   .shot .frame img{border-radius:14px}
 }
 </style>
+</head><body>
 
 <nav class="nav" id="nav" aria-label="Case study">
   <div class="wrap">
@@ -319,6 +331,7 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
       <li><a href="#prototype">prototype</a></li>
       <li><a href="#overview">overview</a></li>
       <li><a href="#ownership">ownership</a></li>
+      <li><a href="#delivery">delivery</a></li>
       <li><a href="#structure">structure</a></li>
       <li><a href="#screens">screens</a></li>
       <li><a href="#learnt">learnt</a></li>
@@ -329,7 +342,7 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
 <main class="wrap">
   <header class="hero">
     <div>
-      <p class="eyebrow">Product design case study · Mobile</p>
+      <p class="eyebrow">Freelance client project · Mobile</p>
       <h1>Food<span>bank</span></h1>
       <p class="lede">A donation app that helps people find causes they trust and give in under a minute.</p>
       <dl class="meta">
@@ -388,7 +401,7 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
         <div class="prose">
           <p>Foodbank lets people donate to verified food, medicine, education and housing campaigns from their phone.</p>
           <p>The goal was more completed donations. Donors tend to hesitate at the last step: they can't tell which causes are genuine, the flow asks too much of them, and they rarely hear what their money did.</p>
-          <p>I owned the work end to end, from turning the brief into a prioritised backlog, through flows and screens, to a coded prototype. Every decision traces back to two goals: <b>trust</b> before the donor pays, and <b>speed</b> once they decide.</p>
+          <p>This was a freelance project for a client. I owned it end to end: turning their brief into a prioritised backlog, running weekly reviews with them, designing the flows and screens, and building a coded prototype. Every decision traces back to two goals: <b>trust</b> before the donor pays, and <b>speed</b> once they decide.</p>
         </div>
         <div class="facts">
           <div><b>3</b><span>screens from discovery to receipt</span></div>
@@ -561,6 +574,67 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
         <div class="ai">
           <div><h4>AI-assisted</h4><ul><li>First prototype generated with Figma AI, then refined by hand</li><li>Coded prototype on this page built with AI-assisted development</li><li>Variations of empty and error states explored quickly</li></ul></div>
           <div><h4>My judgment</h4><ul><li>What goes in release 1 and what waits</li><li>Merging amount and payment into one screen</li><li>Where trust cues sit, and pre-selecting $50</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="delivery">
+    <div class="sec-head"><p class="eyebrow">How the work ran</p><h2>A weekly loop with the client</h2><p>The client reviewed progress every week, sometimes every ten days. Each round fed back into the backlog, so the design kept moving without losing scope.</p></div>
+    <div class="own">
+      <div>
+        <div class="om" role="img" aria-label="Delivery loop: plan from the backlog, design and prototype, review with the client, log change requests, then re-prioritise the backlog and start the next cycle.">
+          <svg viewBox="0 0 1000 220" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans, system-ui, sans-serif">
+            <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="#9AA19E"/></marker></defs>
+            <g stroke="#9AA19E" stroke-width="1.5" fill="none">
+              <path d="M200 70 H246" marker-end="url(#ar2)"/><path d="M440 70 H486" marker-end="url(#ar2)"/><path d="M680 70 H726" marker-end="url(#ar2)"/>
+              <path d="M860 110 V170 H120 V114" marker-end="url(#ar2)" stroke-dasharray="5 4"/>
+            </g>
+            <text x="490" y="190" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" fill="#5F6563">every 7&#8211;10 days</text>
+            <g text-anchor="middle">
+              <rect x="20" y="30" width="180" height="80" rx="14" fill="#fff" stroke="#0B0B0B" stroke-width="1.5"/>
+              <text x="110" y="64" font-size="16" font-weight="600" fill="#0B0B0B">Plan</text><text x="110" y="86" font-size="12.5" fill="#5F6563">top items from backlog</text>
+              <rect x="250" y="30" width="190" height="80" rx="14" fill="#fff" stroke="#0B0B0B" stroke-width="1.5"/>
+              <text x="345" y="64" font-size="16" font-weight="600" fill="#0B0B0B">Design &amp; prototype</text><text x="345" y="86" font-size="12.5" fill="#5F6563">flows, screens, states</text>
+              <rect x="490" y="30" width="190" height="80" rx="14" fill="#00966A"/>
+              <text x="585" y="64" font-size="16" font-weight="600" fill="#fff">Client review</text><text x="585" y="86" font-size="12.5" fill="#E3F3EC">walkthrough + feedback</text>
+              <rect x="730" y="30" width="250" height="80" rx="14" fill="#FFF4E2" stroke="#F6A32D" stroke-width="1.5"/>
+              <text x="855" y="64" font-size="16" font-weight="600" fill="#0B0B0B">Log &amp; re-prioritise</text><text x="855" y="86" font-size="12.5" fill="#9A5B00">changes into the backlog</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div>
+        <h3>Change control</h3>
+        <p class="sub">There were several rounds of changes. Each one went through the same three questions before it touched the design.</p>
+        <div class="metrics">
+          <div class="metric"><b>1</b><span>Does it serve the goal of more completed donations?</span><small>if not, it waits</small></div>
+          <div class="metric"><b>2</b><span>What does it cost in time, and what moves out to make room?</span><small>scope vs schedule</small></div>
+          <div class="metric"><b>3</b><span>Is it a release 1 must, or a should for release 2?</span><small>back into MoSCoW</small></div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Use case: make a donation</h3>
+        <p class="sub">The stories say what donors want. The use case covers how the app responds, including the failure paths the flow chart loops back from.</p>
+        <dl class="uc">
+          <div class="uc-row"><dt>Primary actor</dt><dd>Donor</dd></div>
+          <div class="uc-row"><dt>Precondition</dt><dd>Donor is signed in and viewing a campaign</dd></div>
+          <div class="uc-row"><dt>Main flow</dt><dd><ol><li>Donor taps Donate Now.</li><li>App shows amount options with $50 selected.</li><li>Donor confirms an amount and picks PayPal or card.</li><li>Donor taps Pay &amp; Confirm.</li><li>App confirms and shows a receipt, saved to My Donations.</li></ol></dd></div>
+          <div class="uc-row"><dt>Alternate flows</dt><dd><ol><li>Custom amount under $1 or over $10,000: inline error, payment blocked.</li><li>Payment fails: donor returns to payment with the amount kept.</li><li>Donor goes back: amount and method are not lost.</li></ol></dd></div>
+        </dl>
+      </div>
+
+      <div>
+        <h3>Definition of done</h3>
+        <p class="sub">A screen counted as done only when all of these were true.</p>
+        <div class="dod">
+          <span>Meets every acceptance criterion in its story</span>
+          <span>Error and empty states designed</span>
+          <span>Built from design-system components</span>
+          <span>Reviewed and approved by the client</span>
+          <span>Clickable in the prototype</span>
         </div>
       </div>
     </div>
@@ -860,5 +934,4 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
   reset();
 })();
 </script>
-
 </body></html>
