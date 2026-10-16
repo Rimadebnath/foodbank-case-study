@@ -167,6 +167,8 @@ section.block{padding-block:var(--section) 0}
 .dec li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:8px;font-size:16px}
 .dec li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:9px}
 .dec b{font-weight:600}
+.why{margin-top:16px;font-size:15.5px;line-height:1.55;color:var(--ink);background:var(--soft);border-radius:12px;padding:12px 14px}
+.why b{font-weight:600}
 .change{margin-top:18px;font-size:15px;color:var(--muted)}
 .change b{color:var(--ink);font-weight:600}
 
@@ -290,6 +292,13 @@ section.block{padding-block:var(--section) 0}
 .ds-note{font-size:14px;color:var(--muted);margin-top:16px}
 
 /* learnt */
+.rs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.rs-k{border-top:2px solid var(--accent);padding-top:18px;display:grid;gap:8px;align-content:start}
+.rs-k b{font-family:var(--display);font-weight:400;font-size:clamp(40px,4.4vw,56px);line-height:1;color:var(--accent)}
+.rs-k span{font-size:15.5px;color:var(--muted)}
+.rs-note{margin-top:28px;max-width:70ch;color:var(--muted);font-size:16px}
+@media (max-width:860px){.rs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.rs{grid-template-columns:minmax(0,1fr)}}
 .learn{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
 .learn div{border-top:2px solid var(--ink);padding-top:18px;display:grid;gap:8px;align-content:start}
 .learn b{font-weight:600;font-size:18px}
@@ -326,7 +335,7 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
 
 <nav class="nav" id="nav" aria-label="Case study">
   <div class="wrap">
-    <a class="brand" href="https://rima-portfolio-teal.vercel.app" target="_blank" rel="noopener">rima debnath</a>
+    <a class="brand" href="https://rima-portfolio-teal.vercel.app/#work">← back to work</a>
     <ul>
       <li><a href="#prototype">prototype</a></li>
       <li><a href="#overview">overview</a></li>
@@ -334,6 +343,7 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
       <li><a href="#delivery">delivery</a></li>
       <li><a href="#structure">structure</a></li>
       <li><a href="#screens">screens</a></li>
+      <li><a href="#results">results</a></li>
       <li><a href="#learnt">learnt</a></li>
     </ul>
   </div>
@@ -350,6 +360,7 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
         <div><dt>Scope</dt><dd>3 core flows, design system, coded prototype</dd></div>
         <div><dt>Platform</dt><dd>iOS mobile app</dd></div>
         <div><dt>Tools</dt><dd>Figma, Figma AI, HTML/CSS/JS</dd></div>
+        <div><dt>Outcome</dt><dd>+20% traffic, repeat donors, a referral</dd></div>
       </dl>
     </div>
     <div class="ba-wrap">
@@ -645,7 +656,7 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
     <div class="two">
       <figure>
         <div class="diagram"><img src="img/ia.svg" alt="Information architecture: splash, onboarding and sign up or sign in lead to a home hub with four tabs: Home, Wallet, My Donations and Profile. Discovery and donating sit under Home."></div>
-        <figcaption class="cap"><b>Information architecture.</b> Every key task is one tap from the bottom bar. Discovery and giving live under Home, so finding a cause and donating never leave one branch. <a href="img/ia.svg" target="_blank" rel="noopener">Open full size</a></figcaption>
+        <figcaption class="cap"><b>Information architecture.</b> Every key task is one tap from the bottom bar. Discovery and giving live under Home, so finding a cause and donating never leave one branch. <b>Why:</b> the fewer places a donor has to look, the less chance they get lost before giving. <a href="img/ia.svg" target="_blank" rel="noopener">Open full size</a></figcaption>
       </figure>
       <figure>
         <div class="diagram"><img src="img/flow.svg" alt="User flow from opening the app to a completed donation, with loops back when the amount is invalid or payment fails."></div>
@@ -669,6 +680,7 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
             <li><span><b>One featured campaign</b> with progress and time left.</span></li>
             <li><span><b>Category chips</b> filter the list in one tap.</span></li>
           </ul>
+          <p class="why"><b>Why:</b> donors open the app already wanting to give, so Home leads with real campaigns, not marketing. One featured campaign gives undecided donors a place to start, and search serves people who already know.</p>
           <p class="change"><b>Changed from wireframe:</b> labelled search with an icon, and a green outline on the active chip.</p>
         </div>
       </article>
@@ -684,6 +696,7 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
             <li><span><b>Live progress</b>: amount raised and time left.</span></li>
             <li><span><b>Verified organiser</b> right above Donate Now.</span></li>
           </ul>
+          <p class="why"><b>Why:</b> the biggest reason donors hesitate is not knowing whether a cause is genuine. So proof (who gave, how much is raised, who runs it) sits above the button, and the ask comes only after the trust.</p>
           <p class="change"><b>Changed from wireframe:</b> the verified badge and progress bar took colour, the two strongest trust cues.</p>
         </div>
       </article>
@@ -699,6 +712,7 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
             <li><span><b>Custom amount</b> without competing with presets.</span></li>
             <li><span><b>PayPal or card</b>, then one Pay &amp; Confirm.</span></li>
           </ul>
+          <p class="why"><b>Why:</b> every extra screen in checkout is a place to drop off. Presets remove a decision, $50 gives an anchor without pressure, and putting payment on the same screen makes giving one step instead of two.</p>
           <p class="change"><b>Changed from wireframe:</b> heavy outlines became soft fills, so the selection stands out.</p>
         </div>
       </article>
@@ -726,6 +740,7 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
           <span class="b s">Donate</span><span class="b sh">Donate</span><span class="b sf">Donate</span><span class="b sa x">Donate</span><span class="b sd x">Donate</span>
         </div>
         <p class="ds-note">Primary and secondary, five states each, at L 18, S 14 and XS 12 text sizes.</p>
+        <p class="why"><b>Why components:</b> the client reviewed every week, so changes came often. Building every screen from one set of components meant a change made once updated everywhere, and new screens stayed consistent.</p>
       </div>
       <div class="panel">
         <h3>Type scale</h3>
@@ -737,8 +752,20 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
           <div><span style="font-size:12px;font-family:var(--app);color:var(--muted)">F2 Field label</span><code>12 / 16</code></div>
         </div>
         <p class="ds-note">Headings in Made Outer Sans, body and fields in Roboto.</p>
+        <p class="why"><b>Why:</b> a bold geometric display face so campaign titles read with confidence, and Roboto for amounts and form fields, where numbers must be read at a glance.</p>
       </div>
     </div>
+  </section>
+
+  <section class="block" id="results">
+    <div class="sec-head"><p class="eyebrow">Results</p><h2>Launched, used, and recommended</h2><p>The NGO approved the design and launched it. The numbers are what the client reported back. I didn't have access to their analytics.</p></div>
+    <div class="rs">
+      <div class="rs-k"><b>+20%</b><span>Traffic after launch, reported by the client</span></div>
+      <div class="rs-k"><b>Repeat</b><span>Donors came back to give again, and so did the client, with more work</span></div>
+      <div class="rs-k"><b>Referral</b><span>The client referred me to a new client</span></div>
+      <div class="rs-k"><b>2 → 1</b><span>Checkout screens. A donor gives in 3 taps from a campaign page</span></div>
+    </div>
+    <p class="rs-note">Why these matter: repeat donors was one of the three measures I set in the backlog. Seeing them return showed the receipts and trust cues were doing their job.</p>
   </section>
 
   <section class="block" id="learnt">
@@ -757,7 +784,7 @@ footer .links{display:flex;gap:20px;flex-wrap:wrap}
 
   <footer>
     <span>Rima Debnath · Product designer · 2026</span>
-    <span class="links"><a href="https://rima-portfolio-teal.vercel.app" target="_blank" rel="noopener">Portfolio</a><a href="https://lms-product-design-case-study.vercel.app/" target="_blank" rel="noopener">LMS case study</a></span>
+    <span class="links"><a href="https://rima-portfolio-teal.vercel.app/#work">← Back to portfolio</a><a href="https://lms-product-design-case-study.vercel.app/" target="_blank" rel="noopener">LMS case study</a></span>
   </footer>
 </main>
 
